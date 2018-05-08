@@ -10,7 +10,7 @@ const hashTime = () => {
   return `${YEAR}${MONTH}${DATE}${HOURS}${MINUTES}`
 }
 
-
+// compiler process
 const handleEntry = (pageCollections, device) => {
   if(!device) return 'handleEntry is fail';
 

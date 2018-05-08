@@ -1,11 +1,11 @@
 'use strict'
 
 const path = require('path')
-
+const PAGES = ['first', 'second', 'third']
 module.exports = { 
 
   dev: {
-
+    PAGES,
     assetsPublicPath: 'assets/',
 
 
@@ -21,7 +21,7 @@ module.exports = {
   },
 
   build: {
-
+    PAGES,
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist/thor'),
     assetsPublicPath: 'assets/',
@@ -29,7 +29,7 @@ module.exports = {
   },
 
   build_release: {
-
+    PAGES,
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist/release'),
     assetsPublicPath: 'assets/',

@@ -2,8 +2,10 @@
 const path   = require('path')
 const utils  = require('./utils')
 const config = require('../config')
-
+// console.log(config)
 // 專案所有頁面 會用此名稱生成對應的 html, js, css
+
+// 全自動化 js, sass, pug 當案名稱陣列
 const PAGES = ['first', 'second', 'third']
 
 // 取得 command line option
@@ -11,7 +13,7 @@ const DEVICE = process.env.device
 
 // console.log( utils.handleEntry(PAGES, DEVICE) )
 // console.log( process.env.device )
-
+// console.log( process.env )
 
 module.exports = {
   entry: utils.handleEntry(PAGES, DEVICE),
