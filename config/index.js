@@ -21,6 +21,7 @@ module.exports = {
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080,        // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
+    poll: false,
   },
 
   build: {
@@ -29,10 +30,11 @@ module.exports = {
     cleanOptions: {
       root: path.resolve(__dirname, `../`),
       verbose:  true,
-      dry:      false
+      dry:      false,
+      exclude: DEVICE === 'pc' ? [ 'mb' ] : ['assets', ...PAGES.map(page => `${page}.html`)]
     },
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist/thor'),
+    assetsRoot: DEVICE === 'pc' ? path.resolve(__dirname, '../dist/thor') : path.resolve(__dirname, '../dist/thor/mb'),
     assetsPublicPath: 'assets/',
     
   },

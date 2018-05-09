@@ -17,6 +17,7 @@ const devWebpackConfig = merge( baseWebpackConfig, {
   devServer: {
     openPage: config.dev.openPage,
     contentBase: config.dev.contentBase,
+    historyApiFallback: true,
     hot: true,
     compress: true,
     host: HOST || config.dev.host,
@@ -25,11 +26,14 @@ const devWebpackConfig = merge( baseWebpackConfig, {
     stats: { 
       children: false,
       chunks: false 
+    },
+    watchOptions: {
+      poll: config.dev.poll,
     }
   },
   plugins: [
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-		new webpack.NamedModulesPlugin(),
   ]
 
 })

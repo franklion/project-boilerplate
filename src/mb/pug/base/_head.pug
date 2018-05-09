@@ -1,0 +1,22 @@
+head
+  meta(charset='UTF-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1')
+  title #{htmlWebpackPlugin.options.meta.title}
+  meta(name='title', content=htmlWebpackPlugin.options.meta.title)
+  meta(name='keyword', content=htmlWebpackPlugin.options.meta.keyword)
+  meta(name='description', content=htmlWebpackPlugin.options.meta.desc)
+  meta(name='copyright', content=htmlWebpackPlugin.options.meta.copyright)
+  meta(name='author', content=htmlWebpackPlugin.options.meta.author)
+  meta(name='url', content=htmlWebpackPlugin.options.meta.url)
+  //- facebook share
+  meta(property='og:title', content=htmlWebpackPlugin.options.meta.title)
+  meta(property='og:description', content=htmlWebpackPlugin.options.meta.desc)
+  meta(property='og:type', content='website')
+  meta(property='og:url', content=htmlWebpackPlugin.options.meta.url)
+  meta(property='og:image', content=htmlWebpackPlugin.options.meta.og_image)
+  meta(property='og:image:width', content="1200")
+  meta(property='og:image:height', content="600")
+  meta(property='og:site_name', content=htmlWebpackPlugin.options.meta.site_name)
+  meta(property='fb:app_id', content=htmlWebpackPlugin.options.meta.app_id)
