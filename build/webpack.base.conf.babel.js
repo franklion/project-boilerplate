@@ -5,7 +5,7 @@ const config            = require('../config')
 const thorMeta          = require('../page_meta/thor.meta')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-console.log(process.env.NODE_ENV)
+
 
 module.exports = {
   entry: utils.handleEntry(config.PAGES, config.DEVICE),

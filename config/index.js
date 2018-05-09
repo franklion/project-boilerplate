@@ -24,6 +24,13 @@ module.exports = {
   },
 
   build: {
+
+    pathsToClean: ['dist/thor'], // 可以把整個 dist/刪除，或是改成只刪除 dist/thor or dist/release
+    cleanOptions: {
+      root: path.resolve(__dirname, `../`),
+      verbose:  true,
+      dry:      false
+    },
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist/thor'),
     assetsPublicPath: 'assets/',
@@ -31,6 +38,13 @@ module.exports = {
   },
 
   build_release: {
+
+    pathsToClean: ['dist/release'], // 可以把整個 dist/刪除，或是改成只刪除 dist/thor or dist/release
+    cleanOptions: {
+      root: path.resolve(__dirname, `../`),
+      verbose:  true,
+      dry:      false
+    },
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist/release'),
     assetsPublicPath: 'assets/',
