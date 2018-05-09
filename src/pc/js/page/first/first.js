@@ -6,6 +6,9 @@ const context = 'frank555';
 showBanner(context)
 hideBanner()
 
+console.log(123)
+
+
 // test isMobile.js
 // console.log( `isMobile: ${isMobile.any}` )
 // console.log(TweenMax); 

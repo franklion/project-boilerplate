@@ -1,10 +1,9 @@
 'use strict'
 
-const webpack = require('webpack')
-const config = require('../config')
-const merge = require('webpack-merge')
+const webpack           = require('webpack')
+const config            = require('../config')
+const merge             = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf.babel')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 
 // process.env 需要自行定義
@@ -16,13 +15,19 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 const devWebpackConfig = merge( baseWebpackConfig, { 
 
   devServer: {
+    openPage: config.dev.openPage,
     contentBase: config.dev.contentBase,
     hot: true,
     compress: true,
     host: HOST || config.dev.host,
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
+    stats: { 
+      children: false,
+      chunks: false 
+    }
   },
+
 })
 
 module.exports = devWebpackConfig

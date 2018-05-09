@@ -1,3 +1,6 @@
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const hashTime = () => {
   let currentTime = new Date();
 
@@ -10,7 +13,7 @@ const hashTime = () => {
   return `${YEAR}${MONTH}${DATE}${HOURS}${MINUTES}`
 }
 
-// compiler process
+// compiler process js / sass
 const handleEntry = (pageCollections, device) => {
   if(!device) return 'handleEntry is fail';
 
@@ -25,4 +28,15 @@ const handleEntry = (pageCollections, device) => {
   return entryCollections
 }
 
-export { hashTime, handleEntry }
+// compiler pug to html
+const handlePug = (pageCollections, device) => {
+  return pageCollections.map((uniquePage) => {
+    return new HtmlWebpackPlugin({
+      filename: `${uniquePage}.html`,
+      inject: false,    // 關閉注入 webpack打包好的 css & js
+      template: path.resolve(__dirname, `../src/${device}/pug/page/${uniquePage}/${uniquePage}.pug`),
+    })
+  })
+}
+
+export { hashTime, handleEntry, handlePug }

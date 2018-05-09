@@ -1,25 +1,17 @@
 'use strict'
-const path   = require('path')
-const utils  = require('./utils')
-const config = require('../config')
-// console.log(config)
-// 專案所有頁面 會用此名稱生成對應的 html, js, css
+const path              = require('path')
+const utils             = require('./utils')
+const config            = require('../config')
+const thorMeta          = require('../page_meta/thor.meta')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-// 全自動化 js, sass, pug 當案名稱陣列
-const PAGES = ['first', 'second', 'third']
 
-// 取得 command line option
-const DEVICE = process.env.device
-
-// console.log( utils.handleEntry(PAGES, DEVICE) )
-// console.log( process.env.device )
-// console.log( process.env )
 
 module.exports = {
-  entry: utils.handleEntry(PAGES, DEVICE),
+  entry: utils.handleEntry(config.PAGES, config.DEVICE),
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: `[name].${utils.hashTime()}.js`,
+    filename: `assets/js/[name].${utils.hashTime()}.js`,
   },
   module: {
     rules: [
@@ -50,5 +42,15 @@ module.exports = {
           }]
       },
     ]
-  }
+  },
+  plugins: config.PAGES.map((name) => {
+    return new HtmlWebpackPlugin({
+      filename: `${name}.html`,
+      inject: false,    // 關閉注入 webpack打包好的 css & js
+      template: path.resolve(__dirname, `../src/pc/pug/page/${name}.pug`),
+      meta: thorMeta.meta,
+      scriptPath: `assets/js/${name}.${utils.hashTime()}.js`
+    })
+  })
+  
 }
