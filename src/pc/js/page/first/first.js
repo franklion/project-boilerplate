@@ -6,7 +6,7 @@ const context = 'frank555';
 showBanner(context)
 hideBanner()
 
-console.log(123)
+console.log(888)
 
 
 // test isMobile.js

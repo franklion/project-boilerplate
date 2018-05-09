@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev_pc": "device=pc webpack-dev-server --open --colors --progress --config build/webpack.dev.conf.babel.js",
+    "dev_pc": "device=pc webpack-dev-server --open --config build/webpack.dev.conf.babel.js",
     "build_pc": "device=pc webpack --hide-modules --config build/webpack.prod.conf.babel.js",
     "build_release_pc": "device=pc webpack --hide-modules --config build/webpack.prod_release.conf.babel.js"
   },

@@ -27,6 +27,10 @@ const devWebpackConfig = merge( baseWebpackConfig, {
       chunks: false 
     }
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+		new webpack.NamedModulesPlugin(),
+  ]
 
 })
 
