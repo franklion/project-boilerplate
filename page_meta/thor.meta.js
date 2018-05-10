@@ -1,6 +1,6 @@
 // this page meta is for dev & thor
 const meta = {
-  title: '[ENV:dev & thor123] this is title',
+  title: '[ENV:dev & thor] this is title',
   description: '[ENV:dev & thor] this is description',
   keyword: '[ENV:dev & thor] this is keyword',
   author: '[ENV:dev & thor] author',

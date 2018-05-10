@@ -32,8 +32,8 @@ const devWebpackConfig = merge( baseWebpackConfig, {
     }
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NamedModulesPlugin(),  // 配合 hot reload 
+    // new webpack.HotModuleReplacementPlugin(), // 配合 hot reload 
   ]
 
 })

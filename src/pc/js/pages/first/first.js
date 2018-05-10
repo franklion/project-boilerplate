@@ -1,4 +1,4 @@
-import { initBanner, showBanner , hideBanner } from './banner.js';
+import { initBanner, showBanner , hideBanner } from '../../utils/banner.js';
 
 // import printMe from './test.js';
 
@@ -12,11 +12,11 @@ import { initBanner, showBanner , hideBanner } from './banner.js';
 // showBanner(h1)
 // hideBanner()
 
-console.log(`hello`)
+
 // console.log(module.hot);
 
-
-
+initBanner()
+// console.log(isMobile.any)
 
 
 
@@ -33,9 +33,11 @@ console.log(`hello`)
 // console.log(TweenMax); 
 
 // test jquery
-// $(() => {
-
-  // $('.title').css({ color: 'red' })
+$(() => {
+  console.log(456);
+  $('.title').css({ color: 'pink', 'fontSize': '150px' })
+});
+  // $('.title').css({ color: 'orange' })
 
 
   // TweenMax.to($('.title'), 1, { alpha: 0 })
@@ -44,4 +46,4 @@ console.log(`hello`)
   //   alpha: 0
   // })
   // console.log( TweenMax.to )
-// });
+
