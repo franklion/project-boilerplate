@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+
 const hashTime = () => {
   let currentTime = new Date();
 
@@ -22,7 +23,7 @@ const handleEntry = (pageCollections, device) => {
   pageCollections.forEach( uniquePage => {
     entryCollections[uniquePage] = [
       `./src/${device}/js/pages/${uniquePage}/${uniquePage}.js`,     // 可以再往下加入css檔
-      `./src/${device}/sass/pages/${uniquePage}/${uniquePage}.sass`
+      `./src/${device}/sass/pages/${uniquePage}/${uniquePage}.sass`,
     ]
   })
 

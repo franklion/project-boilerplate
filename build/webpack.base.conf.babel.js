@@ -84,6 +84,7 @@ module.exports = {
         }),
 
         // 參考 https://juejin.im/post/5a1127666fb9a045023b3a63
+        // doc https://doc.webpack-china.org/plugins/commons-chunk-plugin/
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendors',
             filename: `assets/js/vendors.${utils.hashTime()}.js`,
