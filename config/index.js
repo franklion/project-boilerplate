@@ -45,10 +45,11 @@ module.exports = {
     cleanOptions: {
       root: path.resolve(__dirname, `../`),
       verbose:  true,
-      dry:      false
+      dry:      false,
+      exclude: DEVICE === 'pc' ? [ 'mb' ] : ['assets', ...PAGES.map(page => `${page}.html`)]
     },
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist/release'),
+    assetsRoot: DEVICE === 'pc' ? path.resolve(__dirname, '../dist/release') : path.resolve(__dirname, '../dist/release/mb'),
     assetsPublicPath: 'assets/',
   }
 

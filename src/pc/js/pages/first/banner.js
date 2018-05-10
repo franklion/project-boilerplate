@@ -9,7 +9,7 @@ const initBanner = () => {
     // count++
     const count = h1.innerText
     
-    h1.innerText = parseInt(count, 10) * 2 
+    h1.innerText = parseInt(count, 10) * 20 
   }, 1000)
 
 }

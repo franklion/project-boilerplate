@@ -18,7 +18,7 @@ const devWebpackConfig = merge( baseWebpackConfig, {
     openPage: config.dev.openPage,
     contentBase: config.dev.contentBase,
     historyApiFallback: true,
-    hot: true,
+    // hot: true, // 暫時有問題先不使用
     compress: true,
     host: HOST || config.dev.host,
     port: PORT || config.dev.port,

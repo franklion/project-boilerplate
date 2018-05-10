@@ -5,10 +5,10 @@ const hashTime = () => {
   let currentTime = new Date();
 
   const YEAR    = currentTime.getFullYear();
-  const MONTH   = ('0' + ( currentTime.getMonth() + 1 ) ).slice(-2);
+  const MONTH   = ( '0' + ( currentTime.getMonth() + 1 ) ).slice(-2);
   const DATE    = ( '0' + currentTime.getDate() ).slice(-2);
   const HOURS   = currentTime.getHours();
-  const MINUTES = currentTime.getMinutes();
+  const MINUTES = ( '0' + currentTime.getMinutes() ).slice(-2); 
 
   return `${YEAR}${MONTH}${DATE}${HOURS}${MINUTES}`
 }
@@ -21,7 +21,8 @@ const handleEntry = (pageCollections, device) => {
 
   pageCollections.forEach( uniquePage => {
     entryCollections[uniquePage] = [
-      `./src/${device}/js/page/${uniquePage}/${uniquePage}.js` // 可以再往下加入css檔
+      `./src/${device}/js/pages/${uniquePage}/${uniquePage}.js`,     // 可以再往下加入css檔
+      `./src/${device}/sass/pages/${uniquePage}/${uniquePage}.sass`
     ]
   })
 
@@ -34,7 +35,7 @@ const handlePug = (pageCollections, device) => {
     return new HtmlWebpackPlugin({
       filename: `${uniquePage}.html`,
       inject: false,    // 關閉注入 webpack打包好的 css & js
-      template: path.resolve(__dirname, `../src/${device}/pug/page/${uniquePage}/${uniquePage}.pug`),
+      template: path.resolve(__dirname, `../src/${device}/pug/pages/${uniquePage}/${uniquePage}.pug`),
     })
   })
 }
