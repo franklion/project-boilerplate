@@ -8,7 +8,7 @@ const thorMeta = require('../page_meta/thor.meta')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin')
+const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 
 module.exports = {
   entry: Object.assign(
@@ -109,8 +109,8 @@ module.exports = {
                 )
             },
             chunks: config.PAGES
-        }),
-        new copyWebpackPlugin([  // 複製圖片資料夾
+    }),
+        new CopyWebpackPlugin([  // 複製圖片資料夾
             {
               from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
               to: `assets/images`,
