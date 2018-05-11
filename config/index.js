@@ -2,8 +2,8 @@
 
 const path = require('path')
 
-
-const PAGES  = ['first', 'second', 'third']
+const ar = ['first', 'second', 'third']
+const PAGES  = (DEVICE === 'pc')? [...ar, 'ie']: ar
 const DEVICE = process.env.device
 
 

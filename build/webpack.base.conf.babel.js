@@ -6,7 +6,7 @@ const config            = require('../config')
 const thorMeta          = require('../page_meta/thor.meta')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const extractTextPlugin = require('extract-text-webpack-plugin')
-
+const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 
 
 
@@ -64,6 +64,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new FlowBabelWebpackPlugin(),
         ...config.PAGES.map((name) => {
             return new htmlWebpackPlugin({
                 filename: `${name}.html`,
