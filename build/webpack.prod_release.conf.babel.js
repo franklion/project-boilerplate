@@ -9,8 +9,10 @@ const baseWebpackConfig  = require('./webpack.base.conf.babel')
 const env                = require('../config/prod_release.env')
 const htmlWebpackPlugin  = require('html-webpack-plugin')
 const cleanWebpackPlugin = require('clean-webpack-plugin')
-const extractTextPlugin  = require('extract-text-webpack-plugin');
-
+const extractTextPlugin  = require('extract-text-webpack-plugin')
+const copyWebpackPlugin = require('copy-webpack-plugin')
+const imageminPlugin       = require('imagemin-webpack-plugin').default
+const imageminMozjpeg      = require('imagemin-mozjpeg')
 
 
 const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
@@ -37,9 +39,44 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
       })
     }),
     new webpack.optimize.UglifyJsPlugin(), // 壓縮 js
-    new webpack.LoaderOptionsPlugin({   minimize: true }) // 壓縮 css 
+    new webpack.LoaderOptionsPlugin({   minimize: true }), // 壓縮 css
+    
+    new copyWebpackPlugin([  // 複製圖片資料夾
+      {
+        from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
+        to: config.build_release.assetsRoot + '/' + config.build_release.assetsPublicPath + 'images',
+        ignore: ['.*']
+      }
+    ]),
+    new imageminPlugin({ // 壓縮 圖片
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        optipng: {
+            optimizationLevel: 8,
+        },
+        pngquant: {
+            quality: '65-90',
+            speed: 4,
+        },
+        gifsicle: {
+            optimizationLevel: 3,
+        },
+        svgo: {
+            plugins: [{
+                removeViewBox: false,
+                removeEmptyAttrs: true,
+            }],
+        },
+        jpegtran: {
+            progressive: true,
+        },
+        plugins: [
+            imageminMozjpeg({
+                quality: 85,
+                progressive: true,
+            }),
+        ],
+    }),
   ]
-
 })
 
 

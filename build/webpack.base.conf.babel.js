@@ -6,9 +6,8 @@ const config            = require('../config')
 const thorMeta          = require('../page_meta/thor.meta')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const extractTextPlugin = require('extract-text-webpack-plugin')
-const copyWebpackPlugin = require('copy-webpack-plugin')
-const imageminPlugin    = require('imagemin-webpack-plugin').default
-const imageminMozjpeg   = require('imagemin-mozjpeg')
+
+
 
 
 module.exports = {
@@ -104,41 +103,7 @@ module.exports = {
             chunks: config.PAGES
         }),
         
-        new copyWebpackPlugin([
-            {
-              from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
-              to: config.build.assetsRoot + '/' + config.build.assetsPublicPath + 'images',
-              ignore: ['.*']
-            }
-        ]),
-        new imageminPlugin({
-            test: /\.(jpe?g|png|gif|svg)$/i,
-            optipng: {
-                optimizationLevel: 8,
-            },
-            pngquant: {
-                quality: '65-90',
-                speed: 4,
-            },
-            gifsicle: {
-                optimizationLevel: 3,
-            },
-            svgo: {
-                plugins: [{
-                    removeViewBox: false,
-                    removeEmptyAttrs: true,
-                }],
-            },
-            jpegtran: {
-                progressive: true,
-            },
-            plugins: [
-                imageminMozjpeg({
-                    quality: 85,
-                    progressive: true,
-                }),
-            ],
-        }),
+        
         
     ]
 }

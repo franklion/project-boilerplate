@@ -8,7 +8,7 @@ const baseWebpackConfig    = require('./webpack.base.conf.babel')
 const env                  = require('../config/prod.env')
 const cleanWebpackPlugin   = require('clean-webpack-plugin')
 const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
+const copyWebpackPlugin    = require('copy-webpack-plugin')
 
 
 
@@ -21,6 +21,13 @@ const ProdWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new cleanWebpackPlugin(config.build.pathsToClean, config.build.cleanOptions),
+    new copyWebpackPlugin([  // 複製圖片資料夾
+      {
+        from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
+        to: config.build.assetsRoot + '/' + config.build.assetsPublicPath + 'images',
+        ignore: ['.*']
+      }
+    ]),
   ]
 })
 
