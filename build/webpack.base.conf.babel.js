@@ -114,6 +114,7 @@ module.exports = {
             {
               from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
               to: `assets/images`,
+            //   to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
               ignore: ['.*']
             }
         ]), 

@@ -10,7 +10,7 @@
     "build_mb": "device=mb webpack --hide-modules --config build/webpack.prod.conf.babel.js",
     "build_release_mb": "device=mb webpack --hide-modules --config build/webpack.prod_release.conf.babel.js"
   },
-  "author": "frank",
+  "author": "frank, leo",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -32,6 +32,7 @@
     "postcss-loader": "^2.1.5",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
+    "resolve-url-loader": "^2.3.0",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.2",
     "webpack": "^2.2.1",
