@@ -1,5 +1,6 @@
 
 /* @flow */
+// https://www.saltycrane.com/flow-type-cheat-sheet/latest/
 const initBanner = () => {
   const h1 = document.createElement('h1')
   document.body && document.body.appendChild(h1)
