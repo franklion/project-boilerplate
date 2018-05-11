@@ -6,6 +6,7 @@ const config            = require('../config')
 const thorMeta          = require('../page_meta/thor.meta')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const extractTextPlugin = require('extract-text-webpack-plugin')
+const copyWebpackPlugin = require('copy-webpack-plugin')
 
 
 
@@ -34,6 +35,13 @@ module.exports = {
                         { loader: 'sass-loader' }
                     ]
                 })
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
+                loader: 'file-loader',
+                options: {
+                    name: 'images/[name].[hash].[ext]'
+                }
             },
             {
                 test: /\.js$/,
@@ -102,8 +110,12 @@ module.exports = {
             },
             chunks: config.PAGES
         }),
-        
-        
-        
+        new copyWebpackPlugin([  // 複製圖片資料夾
+            {
+              from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
+              to: `assets/images`,
+              ignore: ['.*']
+            }
+        ]), 
     ]
 }
