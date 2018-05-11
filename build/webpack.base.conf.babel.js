@@ -9,8 +9,6 @@ const extractTextPlugin = require('extract-text-webpack-plugin')
 const copyWebpackPlugin = require('copy-webpack-plugin')
 const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 
-
-
 module.exports = {
     entry: Object.assign(utils.handleEntry(config.PAGES, config.DEVICE), 
     {
