@@ -1,3 +1,4 @@
-/build/
+/build
 /config/
 /dist/
+/node_modules/
