@@ -36,6 +36,8 @@ module.exports = {
     // Paths
     assetsRoot: DEVICE === 'pc' ? path.resolve(__dirname, '../dist/thor') : path.resolve(__dirname, '../dist/thor/mb'),
     assetsPublicPath: 'assets/',
+
+    bundleAnalyzerReport: false, // 分析 bundle 
     
   },
 
@@ -51,6 +53,7 @@ module.exports = {
     // Paths
     assetsRoot: DEVICE === 'pc' ? path.resolve(__dirname, '../dist/release') : path.resolve(__dirname, '../dist/release/mb'),
     assetsPublicPath: 'assets/',
+
   }
 
 }

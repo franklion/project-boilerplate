@@ -34,14 +34,28 @@ initBanner()
 
 // test jquery
 $(() => {
-  console.log(456);
+  // console.log(456);
   const data = Object.assign({ name: 'frank'}, { age: 31})
   $('.title').css({ color: 'pink', 'fontSize': '150px' })
   console.log(data)
 
-  console.log(Array.from)
+  new Promise((resolve, reject) => {
+    reject('666')
+  })
+  .then(res => {
+    console.log(`res: ${res}`)
+  })
+  .catch(err => {
+    console.log(`err: ${err}`)
+  })
 
-  console.log(new Promise())
+
+
+
+  // console.log(`000`)
+  // console.log(Array.from)
+
+  // console.log(new Promise())
 });
   // $('.title').css({ color: 'orange' })
 

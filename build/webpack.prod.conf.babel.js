@@ -21,8 +21,11 @@ const ProdWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new cleanWebpackPlugin(config.build.pathsToClean, config.build.cleanOptions),
-    // new bundleAnalyzerPlugin()
   ]
 })
+
+if (config.build.bundleAnalyzerReport) {
+  ProdWebpackConfig.plugins.push( new bundleAnalyzerPlugin() )
+}
 
 module.exports = ProdWebpackConfig
