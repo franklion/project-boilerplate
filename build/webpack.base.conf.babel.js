@@ -41,7 +41,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
-          name: 'images/[name].[hash].[ext]',
+          name: `[path][name].${utils.hashTime()}.[ext]`,
         },
       },
       {
@@ -110,13 +110,13 @@ module.exports = {
             },
             chunks: config.PAGES
     }),
-        new CopyWebpackPlugin([  // 複製圖片資料夾
-            {
-              from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
-              to: `assets/images`,
-            //   to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
-              ignore: ['.*']
-            }
-        ]), 
-    ]
+    // new CopyWebpackPlugin([  // 複製圖片資料夾
+    //     {
+    //       from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
+    //       to: `assets/images`,
+    //     //   to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
+    //       ignore: ['.*']
+    //     }
+    // ]), 
+  ]
 }
