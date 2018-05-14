@@ -1,16 +1,20 @@
-
-
 const path = require('path')
 const webpack = require('webpack')
 const utils = require('./utils')
 const config = require('../config')
 const thorMeta = require('../page_meta/thor.meta')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+
+
 
 module.exports = {
+  stats: {
+    children: false, // 隱藏編譯的子檔案
+  },
+  mode: 'none', // 關閉webpack cli 提供的 mode 模式
   entry: Object.assign(
     utils.handleEntry(config.PAGES, config.DEVICE),
     {
@@ -25,17 +29,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [{
-            loader: 'css-loader',
-            options: { url: false },
-          },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' },
-          ],
-        }),
+        test: /\.s?[ac]ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
@@ -84,32 +84,44 @@ module.exports = {
       scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
       cssPath: `assets/css/${name}.${utils.hashTime()}.css`,
     })),
-    new ExtractTextPlugin(`assets/css/[name].${utils.hashTime()}.css`),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       isMobile: 'ismobilejs',
     }),
-
+    // TODO 尚未成功！
+    new MiniCssExtractPlugin({ // 輸出 css
+      filename: `assets/css/[name].${utils.hashTime()}.css`,
+    }),
+    // TODO 尚未成功！
+    new webpack.optimize.SplitChunksPlugin({ 
+      cacheGroups: {
+        commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendors",
+            chunks: "all"
+        }
+      }
+    }),
     // 參考 https://juejin.im/post/5a1127666fb9a045023b3a63
     // doc https://doc.webpack-china.org/plugins/commons-chunk-plugin/
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      filename: `assets/js/vendors.${utils.hashTime()}.js`,
-      minChunks: Infinity,
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendors',
+    //   filename: `assets/js/vendors.${utils.hashTime()}.js`,
+    //   minChunks: Infinity,
+    // }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'utils',
-      filename: `assets/js/utils.${utils.hashTime()}.js`,
-      minChunks(module) {
-        return (
-          module.resource && /\.js$/.test(module.resource) &&
-                    module.resource.indexOf(path.join(__dirname, './node_modules')) === 0
-                )
-            },
-            chunks: config.PAGES
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'utils',
+    //   filename: `assets/js/utils.${utils.hashTime()}.js`,
+    //   minChunks(module) {
+    //     return (
+    //       module.resource && /\.js$/.test(module.resource) &&
+    //                 module.resource.indexOf(path.join(__dirname, './node_modules')) === 0
+    //             )
+    //         },
+    //         chunks: config.PAGES
+    // }),
     // new CopyWebpackPlugin([  // 複製圖片資料夾
     //     {
     //       from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),

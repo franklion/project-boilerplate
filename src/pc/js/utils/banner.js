@@ -9,7 +9,7 @@ const initBanner = () => {
   setInterval(() => {
     const count = h1.innerText || 0
     h1.innerText = (parseInt(count, 10) * 20).toString()
-  }, 1000)
+  }, 10000)
 }
 
 

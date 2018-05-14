@@ -1,17 +1,18 @@
 'use strict'
-const path               = require('path')
-const utils              = require('./utils')
-const webpack            = require('webpack')
-const config             = require('../config')
-const merge              = require('webpack-merge')
-const releaseMeta        = require('../page_meta/release.meta')
-const baseWebpackConfig  = require('./webpack.base.conf.babel')
-const env                = require('../config/prod_release.env')
-const htmlWebpackPlugin  = require('html-webpack-plugin')
-const cleanWebpackPlugin = require('clean-webpack-plugin')
-const extractTextPlugin  = require('extract-text-webpack-plugin')
-const imageminPlugin     = require('imagemin-webpack-plugin').default
-const imageminMozjpeg    = require('imagemin-mozjpeg')
+const path                 = require('path')
+const utils                = require('./utils')
+const webpack              = require('webpack')
+const config               = require('../config')
+const merge                = require('webpack-merge')
+const releaseMeta          = require('../page_meta/release.meta')
+const baseWebpackConfig    = require('./webpack.base.conf.babel')
+const env                  = require('../config/prod_release.env')
+const htmlWebpackPlugin    = require('html-webpack-plugin')
+const cleanWebpackPlugin   = require('clean-webpack-plugin')
+const imageminPlugin       = require('imagemin-webpack-plugin').default
+const imageminMozjpeg      = require('imagemin-mozjpeg')
+const UglifyJsPlugin        = require("uglifyjs-webpack-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 
 const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
@@ -20,7 +21,6 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
     path: config.build_release.assetsRoot,
     filename: `assets/js/[name].${utils.hashTime()}.js`,
   },
-
   plugins: [
     new cleanWebpackPlugin(config.build_release.pathsToClean, config.build_release.cleanOptions),
     ...config.PAGES.map((name) => {
@@ -37,8 +37,8 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
         },
       })
     }),
-    new webpack.optimize.UglifyJsPlugin(), // 壓縮 js
-    new webpack.LoaderOptionsPlugin({   minimize: true }), // 壓縮 css
+    new UglifyJsPlugin({ parallel: true, }), // 壓縮 js
+    new OptimizeCSSAssetsPlugin({}), // 壓縮 css
     new imageminPlugin({ // 壓縮 圖片
         test: /\.(jpe?g|png|gif|svg)$/i,
         optipng: {
