@@ -41,7 +41,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
-          name: `[path][name].${utils.hashTime()}.[ext]`,
+          name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
         },
       },
       {
