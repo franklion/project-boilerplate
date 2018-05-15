@@ -1,0 +1,16 @@
+doctype html
+html(lang="zh-Hant-TW")
+  
+  include ../base/_head.pug
+  
+  body
+
+    h1.title first page
+    h2 hello worlddf12312
+    img(src=require('../../images/first/banner1.jpg'), alt="")
+    div.my-cover
+
+
+    script(src=htmlWebpackPlugin.options.vendorsPath)
+    script(src=htmlWebpackPlugin.options.utilsPath) 
+    script(src=htmlWebpackPlugin.options.scriptPath)

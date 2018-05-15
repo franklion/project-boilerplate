@@ -1,0 +1,21 @@
+$break-small: 767px
+$break-large: 992px
+
+
+=respond-to($media)
+  @if $media == mb
+    @media only screen and ( max-width: $break-small )
+      @content
+  @else if $media == pad
+    @media only screen and ( min-width: $break-small + 1 ) and ( max-width: $break-large - 1 )
+      @content
+  @else if $media == pc
+    @media only screen and ( min-width: $break-large )
+      @content
+
+=clearfix
+  &:after
+    content: ""
+    display: table
+    clear: both
+

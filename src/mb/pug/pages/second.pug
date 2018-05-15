@@ -1,0 +1,14 @@
+doctype html
+html(lang="zh-Hant-TW")
+  
+  include ../base/_head.pug
+
+  body
+
+    h1 second page123
+    h2.title2 Hello World
+    //- img(src=require('../../images/second/2.jpg'), alt="")
+
+    script(src=htmlWebpackPlugin.options.vendorsPath)
+    script(src=htmlWebpackPlugin.options.utilsPath)
+    script(src=htmlWebpackPlugin.options.scriptPath)
