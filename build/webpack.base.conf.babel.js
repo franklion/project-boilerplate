@@ -5,9 +5,8 @@ const config = require('../config')
 const thorMeta = require('../page_meta/thor.meta')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-
+const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 
 module.exports = {
@@ -24,6 +23,7 @@ module.exports = {
   ),
   output: {
     path: path.resolve(__dirname, '../dist'),
+    publicPath: '',
     filename: `assets/js/[name].${utils.hashTime()}.js`,
   },
   module: {
@@ -34,7 +34,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: '../../' // 針對 background-image url 處理相對路徑
+              publicPath: '../../', // 針對 background-image url 處理相對路徑, 在 下方 loader 都未使用的情況 才可動作
             },
           },
           'css-loader',
@@ -46,6 +46,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
+          // filePath = publicPath + name ( '' + assets/images/... )
           name: `assets/images/[name].${utils.hashTime()}.[ext]`,
         },
       },
@@ -98,14 +99,14 @@ module.exports = {
       filename: `assets/css/[name].${utils.hashTime()}.css`,
     }),
     // TODO 尚未成功！
-    new webpack.optimize.SplitChunksPlugin({ 
+    new webpack.optimize.SplitChunksPlugin({
       cacheGroups: {
         commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: "vendors",
-            chunks: "all"
-        }
-      }
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
     }),
     // 參考 https://juejin.im/post/5a1127666fb9a045023b3a63
     // doc https://doc.webpack-china.org/plugins/commons-chunk-plugin/
@@ -133,6 +134,6 @@ module.exports = {
     //     //   to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
     //       ignore: ['.*']
     //     }
-    // ]), 
-  ]
+    // ]),
+  ],
 }
