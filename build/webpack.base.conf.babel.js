@@ -31,7 +31,12 @@ module.exports = {
       {
         test: /\.s?[ac]ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../../' // 針對 background-image url 處理相對路徑
+            },
+          },
           'css-loader',
           'postcss-loader',
           'sass-loader',
@@ -41,7 +46,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
-          name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
+          name: `assets/images/[name].${utils.hashTime()}.[ext]`,
         },
       },
       {
@@ -73,7 +78,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new FlowBabelWebpackPlugin(),
+    // new FlowBabelWebpackPlugin(),
     ...config.PAGES.map(name => new HtmlWebpackPlugin({
       filename: `${name}.html`,
       inject: false, // 關閉注入 webpack打包好的 css & js
@@ -89,7 +94,6 @@ module.exports = {
       jQuery: 'jquery',
       isMobile: 'ismobilejs',
     }),
-    // TODO 尚未成功！
     new MiniCssExtractPlugin({ // 輸出 css
       filename: `assets/css/[name].${utils.hashTime()}.css`,
     }),
