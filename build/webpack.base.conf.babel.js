@@ -79,6 +79,28 @@ module.exports = {
     ],
   },
   plugins: [
+    // TODO 尚未成功！
+    new webpack.optimize.SplitChunksPlugin({
+      chunks: 'all',
+      minSize: 30000, // 我们切割完要生成的新chunk要>30kb，否则不生成新chunk。
+      minChunks: 1, // 共享该module的最小chunk数
+      maxAsyncRequests: 5, // 最多有5个异步加载请求该module
+      maxInitialRequests: 3, // 初始化的时候最多有3个请求该module
+      // automaticNameDelimiter: '~', // 合成的間隔符號, ex: vendors~first~second~third.[hash].js
+      // name: true,
+      name: 'vendors',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    }),
     // new FlowBabelWebpackPlugin(),
     ...config.PAGES.map(name => new HtmlWebpackPlugin({
       filename: `${name}.html`,
@@ -97,16 +119,6 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({ // 輸出 css
       filename: `assets/css/[name].${utils.hashTime()}.css`,
-    }),
-    // TODO 尚未成功！
-    new webpack.optimize.SplitChunksPlugin({
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
     }),
     // 參考 https://juejin.im/post/5a1127666fb9a045023b3a63
     // doc https://doc.webpack-china.org/plugins/commons-chunk-plugin/
