@@ -3,11 +3,10 @@ const webpack = require('webpack')
 const utils = require('./utils')
 const config = require('../config')
 const thorMeta = require('../page_meta/thor.meta')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const htmlWebpackPlugin = require('html-webpack-plugin')
+const copyWebpackPlugin = require('copy-webpack-plugin')
+const flowBabelWebpackPlugin = require('flow-babel-webpack-plugin')
+const miniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   stats: {
@@ -32,7 +31,7 @@ module.exports = {
         test: /\.s?[ac]ss$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: miniCssExtractPlugin.loader,
             options: {
               publicPath: '../../', // 針對 background-image url 處理相對路徑, 在 下方 loader 都未使用的情況 才可動作
             },
@@ -122,23 +121,29 @@ module.exports = {
         },
       },
     }),
-    // new FlowBabelWebpackPlugin(),
-    ...config.PAGES.map(name => new HtmlWebpackPlugin({
-      filename: `${name}.html`,
-      inject: false, // 關閉注入 webpack打包好的 css & js
-      template: path.resolve(__dirname, `../src/pc/pug/pages/${name}.pug`),
-      meta: thorMeta.meta,
-      vendorsPath: `assets/js/vendors.${utils.hashTime()}.js`,
-      utilsPath: `assets/js/utils.${utils.hashTime()}.js`,
-      scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
-      cssPath: `assets/css/${name}.${utils.hashTime()}.css`,
-    })),
+    // new flowBabelWebpackPlugin(),
+    // ...config.PAGES.map(name => new htmlWebpackPlugin({
+    //   filename: `${name}.html`,
+    //   inject: false, // 關閉注入 webpack打包好的 css & js
+    //   template: path.resolve(__dirname, `../src/pc/pug/pages/${name}.pug`),
+    //   meta: thorMeta.meta,
+    //   vendorsPath: `assets/js/vendors.${utils.hashTime()}.js`,
+    //   utilsPath: `assets/js/utils.${utils.hashTime()}.js`,
+    //   scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
+    //   cssPath: `assets/css/${name}.${utils.hashTime()}.css`,
+    //   minify: {
+    //     removeComments:     process.env.NODE_ENV === 'production_release', // 移除註解
+    //     collapseWhitespace: process.env.NODE_ENV === 'production_release', // 移除空格
+    //     // removeComments:     /production_release/.test(process.env.NODE_ENV), // 移除註解
+    //     // collapseWhitespace: /production_release/.test(process.env.NODE_ENV), // 移除空格
+    //   },
+    // })),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       isMobile: 'ismobilejs',
     }),
-    new MiniCssExtractPlugin({ // 輸出 css
+    new miniCssExtractPlugin({ // 輸出 css
       filename: `assets/css/[name].${utils.hashTime()}.css`,
     }),
     // 參考 https://juejin.im/post/5a1127666fb9a045023b3a63
@@ -160,7 +165,7 @@ module.exports = {
     //         },
     //         chunks: config.PAGES
     // }),
-    // new CopyWebpackPlugin([  // 複製圖片資料夾
+    // new copyWebpackPlugin([  // 複製圖片資料夾
     //     {
     //       from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
     //       to: `assets/images`,

@@ -22,6 +22,10 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
     filename: `assets/js/[name].${utils.hashTime()}.js`,
   },
   plugins: [
+    //- process.env 參數暫時沒用到
+    new webpack.DefinePlugin({
+        'process.env': env
+    }),
     new cleanWebpackPlugin(config.build_release.pathsToClean, config.build_release.cleanOptions),
     ...config.PAGES.map((name) => {
       return new htmlWebpackPlugin({
@@ -70,5 +74,5 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
-
+// console.log(ProdReleaseWebpackConfig)
 module.exports = ProdReleaseWebpackConfig
