@@ -79,7 +79,27 @@ module.exports = {
     ],
   },
   plugins: [
-    // TODO 尚未成功！
+    new webpack.optimize.SplitChunksPlugin({
+      chunks: 'all',
+      minSize: 30000, // 我们切割完要生成的新chunk要>30kb，否则不生成新chunk。
+      minChunks: 1, // 共享该module的最小chunk数
+      maxAsyncRequests: 5, // 最多有5个异步加载请求该module
+      maxInitialRequests: 3, // 初始化的时候最多有3个请求该module
+      // automaticNameDelimiter: '~', // 合成的間隔符號, ex: vendors~first~second~third.[hash].js
+      // name: true,
+      name: 'utils',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    }),
     new webpack.optimize.SplitChunksPlugin({
       chunks: 'all',
       minSize: 30000, // 我们切割完要生成的新chunk要>30kb，否则不生成新chunk。
@@ -95,6 +115,7 @@ module.exports = {
           priority: -10,
         },
         default: {
+          chunks: config.PAGES,
           minChunks: 2,
           priority: -20,
           reuseExistingChunk: true,
