@@ -46,7 +46,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
           // filePath = publicPath + name ( '' + assets/images/... )
-          name: `assets/images/[name].${utils.hashTime()}.[ext]`,
+          name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
         },
       },
       {
