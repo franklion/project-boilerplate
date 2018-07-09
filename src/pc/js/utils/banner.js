@@ -13,7 +13,7 @@ const initBanner = () => {
 }
 
 
-const showBanner = (h1: HTMLElement) => {
+const showBanner = (h1) => {
   // console.log(h1.innerText)
 
   const count = 100
