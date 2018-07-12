@@ -1,18 +1,19 @@
 'use strict'
-const path                 = require('path')
-const utils                = require('./utils')
-const webpack              = require('webpack')
-const config               = require('../config')
-const merge                = require('webpack-merge')
-const releaseMeta          = require('../page_meta/release.meta')
-const baseWebpackConfig    = require('./webpack.base.conf.babel')
-const env                  = require('../config/prod_release.env')
-const htmlWebpackPlugin    = require('html-webpack-plugin')
-const cleanWebpackPlugin   = require('clean-webpack-plugin')
-const imageminPlugin       = require('imagemin-webpack-plugin').default
-const imageminMozjpeg      = require('imagemin-mozjpeg')
-const UglifyJsPlugin        = require("uglifyjs-webpack-plugin")
+const path                    = require('path')
+const utils                   = require('./utils')
+const webpack                 = require('webpack')
+const config                  = require('../config')
+const merge                   = require('webpack-merge')
+const releaseMeta             = require('../page_meta/release.meta')
+const baseWebpackConfig       = require('./webpack.base.conf.babel')
+const env                     = require('../config/prod_release.env')
+const htmlWebpackPlugin       = require('html-webpack-plugin')
+const cleanWebpackPlugin      = require('clean-webpack-plugin')
+const imageminPlugin          = require('imagemin-webpack-plugin').default
+const imageminMozjpeg         = require('imagemin-mozjpeg')
+const UglifyJsPlugin          = require("uglifyjs-webpack-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const miniCssExtractPlugin    = require('mini-css-extract-plugin')
 
 
 const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
@@ -22,36 +23,18 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
     filename: `assets/js/[name].${utils.hashTime()}.js`,
   },
   plugins: [
-    //- process.env 參數暫時沒用到
-    new webpack.DefinePlugin({
-        'process.env': env
-    }),
     new cleanWebpackPlugin(config.build_release.pathsToClean, config.build_release.cleanOptions),
-    ...config.PAGES.map((name) => {
-      return new htmlWebpackPlugin({
-        filename: `${name}.html`,
-        inject: false,    // 關閉注入 webpack打包好的 css & js
-        template: path.resolve(__dirname, `../src/pc/pug/pages/${name}.pug`),
-        meta: releaseMeta.meta,
-        scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
-        cssPath: `assets/css/${name}.${utils.hashTime()}.css`,
-        minify: {
-          removeComments:     true, // 移除註解
-          collapseWhitespace: true, // 移除空格
-        },
-      })
-    }),
     new UglifyJsPlugin({ parallel: true, }), // 壓縮 js
+    new miniCssExtractPlugin({ // 輸出 css
+        filename: `assets/css/[name].${utils.hashTime()}.css`,
+    }),
     new OptimizeCSSAssetsPlugin({}), // 壓縮 css
-    new imageminPlugin({ // 壓縮 圖片
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        optipng: {
-            optimizationLevel: 8,
-        },
-        pngquant: {
+    new imageminPlugin({ 
+        minFileSize: 200000, // 根據專案進行客製化 Only apply this one to files over 200kb
+        pngquant: {          // 只有壓縮 png
             quality: '65-90',
             speed: 4,
-        },
+        }, 
         gifsicle: {
             optimizationLevel: 3,
         },
@@ -74,5 +57,5 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
-// console.log(ProdReleaseWebpackConfig)
+
 module.exports = ProdReleaseWebpackConfig

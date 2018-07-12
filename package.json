@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev_pc": "device=pc webpack-dev-server --open --inline --config build/webpack.dev.conf.babel.js",
-    "build_pc": "device=pc webpack --hide-modules --config build/webpack.prod.conf.babel.js",
-    "build_release_pc": "device=pc webpack --hide-modules --config build/webpack.prod_release.conf.babel.js",
-    "dev_mb": "device=mb webpack-dev-server --open --inline --config build/webpack.dev.conf.babel.js",
-    "build_mb": "device=mb webpack --hide-modules --config build/webpack.prod.conf.babel.js",
-    "build_release_mb": "device=mb webpack --hide-modules --config build/webpack.prod_release.conf.babel.js"
+    "dev_pc": "NODE_ENV=development device=pc webpack-dev-server --config build/webpack.dev.conf.babel.js",
+    "build_pc": "NODE_ENV=production device=pc webpack --hide-modules --config build/webpack.prod.conf.babel.js",
+    "build_release_pc": "NODE_ENV=production_release device=pc webpack --hide-modules --config build/webpack.prod_release.conf.babel.js",
+    "dev_mb": "NODE_ENV=development device=mb webpack-dev-server --config build/webpack.dev.conf.babel.js",
+    "build_mb": "NODE_ENV=production device=mb webpack --hide-modules --config build/webpack.prod.conf.babel.js",
+    "build_release_mb": "NODE_ENV=production_release device=mb webpack --hide-modules --config build/webpack.prod_release.conf.babel.js"
   },
   "author": "frank, leo",
   "license": "ISC",

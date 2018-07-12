@@ -1,14 +1,15 @@
 const path = require('path')
 
-const ar = ['first', 'second', 'third']
-const PAGES = (DEVICE === 'pc') ? [...ar, 'ie'] : ar
+const PAGES = ['first', 'second', 'third']
 const DEVICE = process.env.device
+const NODE_ENV = process.env.NODE_ENV
 
 
 module.exports = {
   // 全自動化 js, sass, pug
   PAGES,
   DEVICE,
+  NODE_ENV,
 
   dev: {
     assetsPublicPath: 'assets/',
@@ -18,8 +19,9 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    autoOpenBrowser: true,
     poll: false,
+    inline: true,
   },
 
   build: {

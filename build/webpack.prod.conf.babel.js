@@ -10,32 +10,19 @@ const env                  = require('../config/prod.env')
 const cleanWebpackPlugin   = require('clean-webpack-plugin')
 const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const htmlWebpackPlugin    = require('html-webpack-plugin')
-
-
+const miniCssExtractPlugin = require('mini-css-extract-plugin')
 
 
 
 const ProdWebpackConfig = merge(baseWebpackConfig, {
-
   output: {
     path: config.build.assetsRoot,
     filename: `assets/js/[name].${utils.hashTime()}.js`,
   },
   plugins: [
-    //- process.env 參數暫時沒用到
-    new webpack.DefinePlugin({
-        'process.env': env
-    }),
     new cleanWebpackPlugin(config.build.pathsToClean, config.build.cleanOptions),
-    ...config.PAGES.map((name) => {
-      return new htmlWebpackPlugin({
-        filename: `${name}.html`,
-        inject: false,    // 關閉注入 webpack打包好的 css & js
-        template: path.resolve(__dirname, `../src/pc/pug/pages/${name}.pug`),
-        meta: releaseMeta.meta,
-        scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
-        cssPath: `assets/css/${name}.${utils.hashTime()}.css`,
-      })
+    new miniCssExtractPlugin({ // 輸出 css
+      filename: `assets/css/[name].${utils.hashTime()}.css`,
     }),
   ]
 })

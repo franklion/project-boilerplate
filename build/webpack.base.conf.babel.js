@@ -16,9 +16,10 @@ module.exports = {
   entry: Object.assign(
     utils.handleEntry(config.PAGES, config.DEVICE),
     {
-      vendors: ['jquery'],
-      utils: ['./src/pc/js/utils/banner.js'],
-    },
+      redirectUrlByDevice: [
+        config.DEVICE === 'pc' ? './src/pc/js/utils/goto-mobile.js' : './src/pc/js/utils/goto-pc.js',
+      ]
+    }
   ),
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -30,11 +31,12 @@ module.exports = {
       {
         test: /\.s?[ac]ss$/,
         use: [
-          {
+          config.NODE_ENV === 'development' ? 'style-loader' : 
+          { 
             loader: miniCssExtractPlugin.loader,
             options: {
               publicPath: '../../', // 針對 background-image url 處理相對路徑, 在 下方 loader 都未使用的情況 才可動作
-            },
+            }
           },
           'css-loader',
           'postcss-loader',
@@ -42,10 +44,16 @@ module.exports = {
         ],
       },
       {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
-          // filePath = publicPath + name ( '' + assets/images/... )
           name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
         },
       },
@@ -78,35 +86,26 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.optimize.SplitChunksPlugin({
-      chunks: 'all',
-      minSize: 30000, // 我们切割完要生成的新chunk要>30kb，否则不生成新chunk。
-      minChunks: 1, // 共享该module的最小chunk数
-      maxAsyncRequests: 5, // 最多有5个异步加载请求该module
-      maxInitialRequests: 3, // 初始化的时候最多有3个请求该module
-      // automaticNameDelimiter: '~', // 合成的間隔符號, ex: vendors~first~second~third.[hash].js
-      // name: true,
-      name: 'utils',
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
+    ...config.PAGES.map(name => new htmlWebpackPlugin({
+      filename: `${name}.html`,
+      inject: false, // 關閉注入 webpack打包好的 css & js
+      template: path.resolve(__dirname, `../src/${config.DEVICE}/pug/pages/${name}.pug`),
+      meta: thorMeta.meta,
+      vendorsPath: `assets/js/vendors.${utils.hashTime()}.js`,
+      redirectUrlByDevicePath: config.NODE_ENV === 'development' ? '' : `assets/js/redirectUrlByDevice.${utils.hashTime()}.js`,
+      scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
+      cssPath: config.NODE_ENV === 'development' ? '' : `assets/css/${name}.${utils.hashTime()}.css`,
+      minify: {
+        removeComments:     config.NODE_ENV === 'production_release', // 移除註解
+        collapseWhitespace: config.NODE_ENV === 'production_release', // 移除空格
       },
-    }),
+    })),
     new webpack.optimize.SplitChunksPlugin({
       chunks: 'all',
       minSize: 30000, // 我们切割完要生成的新chunk要>30kb，否则不生成新chunk。
-      minChunks: 1, // 共享该module的最小chunk数
-      maxAsyncRequests: 5, // 最多有5个异步加载请求该module
-      maxInitialRequests: 3, // 初始化的时候最多有3个请求该module
-      // automaticNameDelimiter: '~', // 合成的間隔符號, ex: vendors~first~second~third.[hash].js
-      // name: true,
+      minChunks: 1, // 共享該module的最小chunk數
+      maxAsyncRequests: 5, // 最多有5个非同步加载请求該module
+      maxInitialRequests: 3, // 初始化的時候最多有3个請求該module
       name: 'vendors',
       cacheGroups: {
         vendors: {
@@ -122,56 +121,19 @@ module.exports = {
       },
     }),
     // new flowBabelWebpackPlugin(),
-    // ...config.PAGES.map(name => new htmlWebpackPlugin({
-    //   filename: `${name}.html`,
-    //   inject: false, // 關閉注入 webpack打包好的 css & js
-    //   template: path.resolve(__dirname, `../src/pc/pug/pages/${name}.pug`),
-    //   meta: thorMeta.meta,
-    //   vendorsPath: `assets/js/vendors.${utils.hashTime()}.js`,
-    //   utilsPath: `assets/js/utils.${utils.hashTime()}.js`,
-    //   scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
-    //   cssPath: `assets/css/${name}.${utils.hashTime()}.css`,
-    //   minify: {
-    //     removeComments:     process.env.NODE_ENV === 'production_release', // 移除註解
-    //     collapseWhitespace: process.env.NODE_ENV === 'production_release', // 移除空格
-    //     // removeComments:     /production_release/.test(process.env.NODE_ENV), // 移除註解
-    //     // collapseWhitespace: /production_release/.test(process.env.NODE_ENV), // 移除空格
-    //   },
-    // })),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       isMobile: 'ismobilejs',
+      'window.jQuery': 'jquery',
     }),
-    new miniCssExtractPlugin({ // 輸出 css
-      filename: `assets/css/[name].${utils.hashTime()}.css`,
-    }),
-    // 參考 https://juejin.im/post/5a1127666fb9a045023b3a63
-    // doc https://doc.webpack-china.org/plugins/commons-chunk-plugin/
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendors',
-    //   filename: `assets/js/vendors.${utils.hashTime()}.js`,
-    //   minChunks: Infinity,
-    // }),
-
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'utils',
-    //   filename: `assets/js/utils.${utils.hashTime()}.js`,
-    //   minChunks(module) {
-    //     return (
-    //       module.resource && /\.js$/.test(module.resource) &&
-    //                 module.resource.indexOf(path.join(__dirname, './node_modules')) === 0
-    //             )
-    //         },
-    //         chunks: config.PAGES
-    // }),
-    // new copyWebpackPlugin([  // 複製圖片資料夾
-    //     {
-    //       from: path.resolve(__dirname, `../src/${config.DEVICE}/images`),
-    //       to: `assets/images`,
-    //     //   to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
-    //       ignore: ['.*']
-    //     }
-    // ]),
+    new copyWebpackPlugin([
+      { 
+        from: path.resolve(__dirname, '../static/images'), 
+        to: 'assets/images/share',
+        // to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
+        ignore: ['.*']
+      }]
+    )
   ],
 }

@@ -21,4 +21,16 @@ head
   meta(property='og:site_name', content=htmlWebpackPlugin.options.meta.site_name)
   meta(property='fb:app_id', content=htmlWebpackPlugin.options.meta.app_id)
 
-  link(rel="stylesheet", href=htmlWebpackPlugin.options.cssPath)
+  if htmlWebpackPlugin.options.cssPath
+    link(rel="stylesheet", href=htmlWebpackPlugin.options.cssPath)
+
+  //- 第三方js
+  script(src=htmlWebpackPlugin.options.vendorsPath)
+
+  //- 根據裝置轉導頁面
+  if htmlWebpackPlugin.options.redirectUrlByDevicePath
+    script(src=htmlWebpackPlugin.options.redirectUrlByDevicePath)
+
+
+  //- 社群媒體追蹤
+  //- ...
