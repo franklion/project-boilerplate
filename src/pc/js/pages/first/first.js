@@ -12,9 +12,10 @@ $(() => {
   // myAnimation.init()
   // myPromise.init()
 
-  mydata.init()
-  mydata.setState({ age: 30 })
-  const data = mydata.getState()
-  console.log(data)
-})
+  // mydata.init()
+  // mydata.setState({ age: 30 })
+  // const data = mydata.getState()
+  // console.log(data)
 
+  myPromise.filterData()
+})
