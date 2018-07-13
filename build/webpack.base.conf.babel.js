@@ -90,7 +90,7 @@ module.exports = {
       filename: `${name}.html`,
       inject: false, // 關閉注入 webpack打包好的 css & js
       template: path.resolve(__dirname, `../src/${config.DEVICE}/pug/pages/${name}.pug`),
-      meta: thorMeta.meta,
+      meta: config.NODE_ENV === 'production_release' ? releaseMeta.meta : thorMeta.meta,
       vendorsPath: `assets/js/vendors.${utils.hashTime()}.js`,
       redirectUrlByDevicePath: config.NODE_ENV === 'development' ? '' : `assets/js/redirectUrlByDevice.${utils.hashTime()}.js`,
       scriptPath: `assets/js/${name}.${utils.hashTime()}.js`,
@@ -127,13 +127,18 @@ module.exports = {
       isMobile: 'ismobilejs',
       'window.jQuery': 'jquery',
     }),
+  ],
+}
+
+if(config.DEVICE === 'pc') {
+  module.exports.plugins.push(
     new copyWebpackPlugin([
       { 
-        from: path.resolve(__dirname, '../static/images'), 
+        from: path.resolve(__dirname, '../static/images/share'), 
         to: 'assets/images/share',
-        // to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
+        // to: `assets/images/share/[path][name].${utils.hashTime()}.[ext]`,
         ignore: ['.*']
-      }]
-    )
-  ],
+      }
+    ])
+  )
 }
