@@ -1,13 +1,9 @@
 'use strict'
-const path                    = require('path')
+
 const utils                   = require('./utils')
-const webpack                 = require('webpack')
 const config                  = require('../config')
 const merge                   = require('webpack-merge')
-const releaseMeta             = require('../page_meta/release.meta')
 const baseWebpackConfig       = require('./webpack.base.conf.babel')
-const env                     = require('../config/prod_release.env')
-const htmlWebpackPlugin       = require('html-webpack-plugin')
 const cleanWebpackPlugin      = require('clean-webpack-plugin')
 const imageminPlugin          = require('imagemin-webpack-plugin').default
 const imageminMozjpeg         = require('imagemin-mozjpeg')
@@ -25,13 +21,11 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
   plugins: [
     new cleanWebpackPlugin(config.build_release.pathsToClean, config.build_release.cleanOptions),
     new UglifyJsPlugin({ parallel: true, }), // 壓縮 js
-    new miniCssExtractPlugin({ // 輸出 css
-        filename: `assets/css/[name].${utils.hashTime()}.css`,
-    }),
+    new miniCssExtractPlugin({ filename: `assets/css/[name].${utils.hashTime()}.css`, }),
     new OptimizeCSSAssetsPlugin({}), // 壓縮 css
     new imageminPlugin({ 
-        minFileSize: 200000, // 根據專案進行客製化 Only apply this one to files over 200kb
-        pngquant: {          // 只有壓縮 png
+        minFileSize: 200000, // 根據專案進行客製化 200kb 以上壓縮
+        pngquant: {
             quality: '65-90',
             speed: 4,
         }, 

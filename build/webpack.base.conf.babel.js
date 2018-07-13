@@ -35,7 +35,7 @@ module.exports = {
           { 
             loader: miniCssExtractPlugin.loader,
             options: {
-              publicPath: '../../', // 針對 background-image url 處理相對路徑, 在 下方 loader 都未使用的情況 才可動作
+              publicPath: '../../', // 針對 background-image url 處理相對路徑
             }
           },
           'css-loader',

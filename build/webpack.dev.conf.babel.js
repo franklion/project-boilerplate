@@ -1,16 +1,8 @@
 'use strict'
 
-const path              = require('path')
-const webpack           = require('webpack')
 const config            = require('../config')
-const thorMeta          = require('../page_meta/thor.meta')
-const utils             = require('./utils')
 const merge             = require('webpack-merge')
-const env               = require('../config/dev.env')
 const baseWebpackConfig = require('./webpack.base.conf.babel')
-const htmlWebpackPlugin = require('html-webpack-plugin')
-
-
 
 
 const devWebpackConfig = merge( baseWebpackConfig, { 
