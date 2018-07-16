@@ -24,29 +24,29 @@ const ProdReleaseWebpackConfig = merge(baseWebpackConfig, {
     new miniCssExtractPlugin({ filename: `assets/css/[name].${utils.hashTime()}.css`, }),
     new OptimizeCSSAssetsPlugin({}), // 壓縮 css
     new imageminPlugin({ 
-        minFileSize: 200000, // 根據專案進行客製化 200kb 以上壓縮
-        pngquant: {
-            quality: '65-90',
-            speed: 4,
-        }, 
-        gifsicle: {
-            optimizationLevel: 3,
-        },
-        svgo: {
-            plugins: [{
-                removeViewBox: false,
-                removeEmptyAttrs: true,
-            }],
-        },
-        jpegtran: {
-            progressive: true,
-        },
-        plugins: [
-            imageminMozjpeg({
-                quality: 85,
-                progressive: true,
-            }),
-        ],
+      minFileSize: 200000, // 根據專案進行客製化 200kb 以上壓縮
+      pngquant: {          
+          quality: '65-90',
+          speed: 4,
+      }, 
+      gifsicle: {
+          optimizationLevel: 3,
+      },
+      svgo: {
+          plugins: [{
+              removeViewBox: false,
+              removeEmptyAttrs: true,
+          }],
+      },
+      jpegtran: {
+          progressive: true,
+      },
+      plugins: [
+          imageminMozjpeg({
+              quality: 85,
+              progressive: true,
+          }),
+      ],
     }),
   ]
 })

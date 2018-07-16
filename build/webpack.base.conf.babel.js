@@ -1,12 +1,18 @@
-const path = require('path')
-const webpack = require('webpack')
-const utils = require('./utils')
-const config = require('../config')
-const thorMeta = require('../page_meta/thor.meta')
-const htmlWebpackPlugin = require('html-webpack-plugin')
-const copyWebpackPlugin = require('copy-webpack-plugin')
+'use strict'
+
+const path                   = require('path')
+const webpack                = require('webpack')
+const utils                  = require('./utils')
+const config                 = require('../config')
+const thorMeta               = require('../page_meta/thor.meta')
+const releaseMeta            = require('../page_meta/release.meta')
+const htmlWebpackPlugin      = require('html-webpack-plugin')
+const copyWebpackPlugin      = require('copy-webpack-plugin')
 const flowBabelWebpackPlugin = require('flow-babel-webpack-plugin')
-const miniCssExtractPlugin = require('mini-css-extract-plugin')
+const miniCssExtractPlugin   =  require('mini-css-extract-plugin')
+
+
+
 
 module.exports = {
   stats: {
@@ -52,10 +58,14 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
-        loader: 'file-loader',
-        options: {
-          name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
-        },
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
+            },
+          }
+        ]
       },
       {
         test: /\.js$/,
@@ -136,9 +146,9 @@ if(config.DEVICE === 'pc') {
       { 
         from: path.resolve(__dirname, '../static/images/share'), 
         to: 'assets/images/share',
-        // to: `assets/images/share/[path][name].${utils.hashTime()}.[ext]`,
+        // to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
         ignore: ['.*']
-      }
-    ])
+      }]
+    )
   )
 }

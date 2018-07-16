@@ -9,11 +9,13 @@ const bundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const miniCssExtractPlugin = require('mini-css-extract-plugin')
 
 
+
 const ProdWebpackConfig = merge(baseWebpackConfig, {
+
   output: {
     path: config.build.assetsRoot,
     filename: `assets/js/[name].${utils.hashTime()}.js`,
-  },
+  }, 
   plugins: [
     new cleanWebpackPlugin(config.build.pathsToClean, config.build.cleanOptions),
     new miniCssExtractPlugin({ filename: `assets/css/[name].${utils.hashTime()}.css` }),
@@ -21,5 +23,6 @@ const ProdWebpackConfig = merge(baseWebpackConfig, {
 })
 
 if (config.build.bundleAnalyzerReport) { ProdWebpackConfig.plugins.push( new bundleAnalyzerPlugin() ) }
+
 
 module.exports = ProdWebpackConfig
