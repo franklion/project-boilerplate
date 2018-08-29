@@ -20,7 +20,7 @@ module.exports = {
   },
   mode: 'none', // 關閉webpack cli 提供的 mode 模式
   entry: Object.assign(
-    utils.handleEntry(config.PAGES, config.DEVICE),
+    utils.handleEntry(config.PAGES, config.DEVICE), 
     {
       redirectUrlByDevice: [
         config.DEVICE === 'pc' ? './src/pc/js/utils/goto-mobile.js' : './src/pc/js/utils/goto-pc.js',
@@ -38,7 +38,7 @@ module.exports = {
         test: /\.s?[ac]ss$/,
         use: [
           config.NODE_ENV === 'development' ? 'style-loader' : 
-          { 
+          {
             loader: miniCssExtractPlugin.loader,
             options: {
               publicPath: '../../', // 針對 background-image url 處理相對路徑
@@ -60,28 +60,28 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         use: [
           {
-            loader: 'file-loader',
-            options: {
-              name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
-            },
-          }
-        ]
+          loader: 'file-loader',
+          options: {
+            name: `assets/images/[folder]/[name].${utils.hashTime()}.[ext]`,
+          },
+        }
+      ]
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
           {
-            /* webpack 2.x 移除了省略 -loader 的寫法 */
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                /* Loose mode and No native modules(Tree Shaking) */
-                ['es2015', { modules: false, loose: false }],
-              ],
-            },
+          /* webpack 2.x 移除了省略 -loader 的寫法 */
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              /* Loose mode and No native modules(Tree Shaking) */
+              ['es2015', { modules: false, loose: false }],
+            ],
           },
-        ],
+        }, 
+      ],
       },
       {
         test: /\.pug$/,
@@ -143,12 +143,12 @@ module.exports = {
 if(config.DEVICE === 'pc') {
   module.exports.plugins.push(
     new copyWebpackPlugin([
-      { 
-        from: path.resolve(__dirname, '../static/images/share'), 
+      {
+        from: path.resolve(__dirname, '../static/images/share'),
         to: 'assets/images/share',
         // to: `assets/images/[path][name].${utils.hashTime()}.[ext]`,
         ignore: ['.*']
-      }]
-    )
+    }]
+  )
   )
 }

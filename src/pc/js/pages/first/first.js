@@ -18,4 +18,5 @@ $(() => {
   // console.log(data)
 
   myPromise.filterData()
+  console.log(345)
 })
